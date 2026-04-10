@@ -22,19 +22,19 @@ export const LEVEL_BG: Record<string, string> = {
 };
 
 export const STUDENT_NAV: NavItem[] = [
-  { label: "Дашборд", href: "/dashboard", icon: "LayoutDashboard" },
-  { label: "Курси", href: "/courses", icon: "BookOpen" },
-  { label: "Курси безкоштовні", href: "/add", icon: "BookOpen" },
-  { label: "Словник", href: "/vocabulary", icon: "BookMarked" },
-  { label: "Оплата", href: "/billing", icon: "CreditCard" },
+  { label: "Дашборд",  href: "/dashboard",  icon: "LayoutDashboard" },
+  { label: "Платні курси",    href: "/courses",     icon: "BookOpen" },
+  { label: "Безкоштовні курси",  href: "/add",icon: "BookOpen" },
+  { label: "Словник",  href: "/vocabulary",  icon: "BookMarked" },
+  { label: "Оплата",   href: "/billing",     icon: "CreditCard" },
 ];
 
 export const ADMIN_NAV: NavItem[] = [
-  { label: "Дашборд", href: "/admin", icon: "LayoutDashboard" },
-  { label: "Курси", href: "/admin/courses", icon: "BookOpen" },
-  { label: "Користувачі", href: "/admin/users", icon: "Users" },
-  { label: "Аналітика", href: "/admin/analytics", icon: "BarChart3" },
-  { label: "Налаштування", href: "/admin/settings", icon: "Settings" },
+  { label: "Дашборд",      href: "/admin",           icon: "LayoutDashboard" },
+  { label: "Курси",        href: "/admin/courses",   icon: "BookOpen" },
+  { label: "Користувачі",  href: "/admin/users",     icon: "Users" },
+  { label: "Аналітика",    href: "/admin/analytics", icon: "BarChart3" },
+  { label: "Налаштування", href: "/admin/settings",  icon: "Settings" },
 ];
 
 export const QUIZ_PASS_THRESHOLD = 70;
