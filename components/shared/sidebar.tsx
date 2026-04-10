@@ -28,7 +28,6 @@ interface SidebarProps {
 const ICONS: Record<NavIconName, React.ComponentType<{ className?: string }>> = {
   LayoutDashboard,
   BookOpen,
-  BookOpen,
   BookMarked,
   CreditCard,
   Users,
