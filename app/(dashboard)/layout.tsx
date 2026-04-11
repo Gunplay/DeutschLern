@@ -3,6 +3,7 @@ import { createClientOrNull } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/shared/sidebar";
 import { STUDENT_NAV } from "@/constants";
 import type { UserProfile } from "@/types";
+import { MobileSidebar } from "@/components/shared/mobile-sidebar";
 
 export default async function DashboardLayout({
   children,
@@ -64,7 +65,8 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-background">
       <Sidebar user={userProfile} navItems={STUDENT_NAV} />
-      <main className="lg:pl-64">
+      <MobileSidebar user={userProfile} navItems={STUDENT_NAV} />
+      <main className="lg:pl-64 pt-14 lg:pt-0">
         <div className="page-container page-enter py-8">{children}</div>
       </main>
     </div>
