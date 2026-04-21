@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "./theme-toggle";
 import { createClient } from "@/lib/supabase/client";
 import type { UserProfile, NavItem, NavIconName } from "@/types";
+import { BackButton } from "./buttonBack";
 
 interface SidebarProps {
   user: UserProfile;
@@ -46,6 +47,10 @@ export function Sidebar({ user, navItems }: SidebarProps) {
     router.refresh();
   };
 
+  const handleBack = () => {
+    router.back(); // Функція браузера "повернутися назад"
+  };
+  
   return (
     <aside className="glass fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-border lg:flex">
       {/* Logo */}
@@ -56,8 +61,15 @@ export function Sidebar({ user, navItems }: SidebarProps) {
           </div>
           <span className="font-display text-lg font-bold">DeutschLern</span>
         </Link>
+        
+
+      </div>
+{/* Back Button Section */}
+<div className="px-4 py-2">
+<BackButton/>
       </div>
 
+      <div className="mx-4 h-[1px] bg-border/50" /> {/* Розділювач */}
       {/* Nav */}
       <nav className="flex-1 space-y-1 overflow-y-auto p-4">
         {navItems.map((item) => {
@@ -96,11 +108,17 @@ export function Sidebar({ user, navItems }: SidebarProps) {
             </Link>
           );
         })}
+        <div>
+
+       
+        </div>
       </nav>
 
       {/* Footer */}
       <div className="space-y-2 border-t border-border p-4">
+  
         <div className="flex items-center gap-3 rounded-xl px-3 py-2">
+        
           <Avatar className="h-8 w-8 shrink-0">
             <AvatarImage src={user.avatar_url ?? ""} />
             <AvatarFallback>{getInitials(user.full_name ?? user.email)}</AvatarFallback>
@@ -119,6 +137,7 @@ export function Sidebar({ user, navItems }: SidebarProps) {
           <LogOut className="h-4 w-4" />
           Вийти
         </button>
+       
       </div>
     </aside>
   );

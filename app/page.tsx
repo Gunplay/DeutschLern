@@ -16,6 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
 import { LEVEL_COLORS, LEVEL_BG } from "@/constants";
+import { createClient } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils"; 
 
 const LEVELS = [
   {
@@ -108,11 +110,23 @@ const TESTIMONIALS = [
   },
 ];
 
-export default function LandingPage() {
+// export default function LandingPage() {
+
+export default async function LandingPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-
+      {/* <Navbar /> */}
+      <Navbar user={user ? {
+  id: user.id,
+  email: user.email ?? "",
+  full_name: user.user_metadata?.full_name ?? null,
+  avatar_url: user.user_metadata?.avatar_url ?? null,
+  role: "student",
+  created_at: user.created_at,
+  updated_at: new Date().toISOString(),
+} : null} />
       {/* ─── Hero ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden pb-24 pt-32">
         {/* Background */}
@@ -311,25 +325,41 @@ export default function LandingPage() {
       </section>
 
       {/* ─── CTA ──────────────────────────────────────────── */}
-      <section className="py-24">
-        <div className="page-container text-center">
-          <div className="glass relative overflow-hidden rounded-3xl p-12 sm:p-16">
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 to-brand-500/5" />
-            <h2 className="relative mb-6 font-display text-4xl font-bold sm:text-5xl">
-              Готовий почати свій шлях?
-            </h2>
-            <p className="relative mx-auto mb-10 max-w-lg text-lg text-muted-foreground">
-              Рівень A1 — повністю безкоштовно. Жодної кредитної картки.
-            </p>
-            <Button size="xl" asChild className="group relative">
-              <Link href="/register">
-                Зареєструватись безкоштовно
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+{/* ─── CTA ──────────────────────────────────────────── */}
+<section className="py-24">
+  <div className="page-container text-center">
+    <div className="glass relative overflow-hidden rounded-3xl p-12 sm:p-16 border border-white/5">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 to-brand-500/10" />
+      
+      <h2 className="relative mb-6 font-display text-4xl font-bold sm:text-5xl">
+        Готовий почати свій шлях?
+      </h2>
+      
+      <p className="relative mx-auto mb-10 max-w-lg text-lg text-muted-foreground">
+        Рівень A1 — повністю безкоштовно. Жодної кредитної картки.
+      </p>
+
+      <div className="relative flex justify-center">
+        <Button 
+          asChild 
+          className={cn(
+            "group relative transition-all duration-500 ease-out overflow-hidden shadow-glow-brand",
+            // Базові стилі та кольори (твоя зелена градієнтна кнопка)
+            "bg-gradient-to-r from-brand-400 to-brand-600 hover:from-brand-500 hover:to-brand-700 text-white border-0",
+            // Адаптивність: висота та текст
+            "h-10 px-6 text-[12px] sm:h-12 sm:px-10 sm:text-sm font-black uppercase tracking-widest md:tracking-normal md:capitalize",
+            "rounded-full shrink-0"
+          )}
+        >
+          <Link href="/register" className="flex items-center gap-3">
+            <span>Зареєструватись безкоштовно</span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+          </Link>
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
 
       <Footer />
     </div>

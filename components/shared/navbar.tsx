@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, GraduationCap } from "lucide-react";
+import { Menu, X, GraduationCap, LayoutDashboard } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { getInitials } from "@/lib/utils";
 import type { UserProfile } from "@/types";
+
+
 
 interface NavbarProps {
   user?: UserProfile | null;
@@ -18,6 +20,7 @@ interface NavbarProps {
 
 export function Navbar({ user, navItems = [] }: NavbarProps) {
   const pathname = usePathname();
+ 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const authDisabled =
@@ -28,6 +31,8 @@ export function Navbar({ user, navItems = [] }: NavbarProps) {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+
 
   return (
     <header
@@ -72,34 +77,71 @@ export function Navbar({ user, navItems = [] }: NavbarProps) {
 
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
-          {user ? (
-            <Link href="/dashboard">
-              <Avatar className="h-8 w-8 ring-2 ring-border transition-all duration-200 hover:ring-primary/50">
-                <AvatarImage src={user.avatar_url ?? ""} />
-                <AvatarFallback>
-                  {getInitials(user.full_name ?? user.email)}
-                </AvatarFallback>
-              </Avatar>
-            </Link>
-          ) : (
-            <div className="hidden items-center gap-2 md:flex">
-              {authDisabled ? (
-                <Button size="sm" asChild>
-                  <Link href="/dashboard">Гостьовий режим</Link>
-                </Button>
-              ) : (
-                <>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link href="/login">Увійти</Link>
-                  </Button>
-                  <Button size="sm" asChild>
-                    <Link href="/register">Почати</Link>
-                  </Button>
-                </>
-              )}
-            </div>
-          )}
+         
+        {user ? (
+  <div className="flex items-center gap-4">
+    {/* Перемикач теми окремо */}
+    
+    
+    <ThemeToggle />
+
+    <Link href="/dashboard" className="group relative">
+      {/* Зовнішнє сяйво при наведенні на всю капсулу */}
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-400 to-brand-600 rounded-full blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
+      
+      {/* Головна капсула-посилання */}
+      <div className="relative flex items-center bg-black/40 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-full p-1.5 pr-4 transition-all duration-300 group-hover:bg-black/60 dark:group-hover:bg-white/10 group-hover:border-white/20">
+        
+        {/* Аватар з градієнтною підкладкою */}
+        <div className="relative shrink-0">
+          <div className="absolute -inset-0.5 bg-gradient-to-tr from-brand-400 to-brand-600 rounded-full opacity-70 group-hover:opacity-100 transition-opacity"></div>
+          <Avatar className="h-8 w-8 relative border-2 border-background dark:border-gray-950">
+            <AvatarImage src={user.avatar_url ?? ""} />
+            <AvatarFallback className="bg-neutral-800 text-white text-[10px] font-black">
+              {getInitials(user.full_name ?? user.email)}
+            </AvatarFallback>
+          </Avatar>
+        </div>
+
+        {/* Текстовий блок */}
+        <div className="ml-3 flex flex-col justify-center">
+          <span className="text-[9px] font-black uppercase tracking-[0.15em] text-brand-400 leading-none mb-0.5">
+           Сторінка навчання
+          </span>
+          <span className="text-sm font-bold text-white/90 leading-none group-hover:text-white transition-colors">
+            {user.full_name?.split(' ')[0] ?? "Vova"}
+          </span>
+        </div>
+
+        {/* Розділювач, який стає яскравішим при ховері */}
+        <div className="h-4 w-[1px] bg-white/10 mx-4 group-hover:bg-white/20 transition-colors" />
+
+        {/* Іконка, яка крутиться при ховері на ВСЮ капсулу */}
+        <div className="text-white/50 group-hover:text-white transition-all duration-300 group-hover:rotate-12">
+          <LayoutDashboard className="h-4 w-4" />
+        </div>
+      </div>
+    </Link>
+  </div>
+) : (
+  // Секція для тих, хто не увійшов
+  <div className="hidden items-center gap-2 md:flex">
+    {authDisabled ? (
+      <Button size="sm" asChild className="rounded-full px-6">
+        <Link href="/dashboard">Гостьовий режим</Link>
+      </Button>
+    ) : (
+      <>
+        <Button variant="ghost" size="sm" asChild className="rounded-full">
+          <Link href="/login">Увійти</Link>
+        </Button>
+        <Button size="sm" asChild className="rounded-full px-6 bg-brand-500 hover:bg-brand-600">
+          <Link href="/register">Почати</Link>
+        </Button>
+      </>
+    )}
+  </div>
+)}
           {/* Mobile menu toggle */}
           <button
             className="rounded-lg p-2 transition-colors hover:bg-secondary md:hidden"

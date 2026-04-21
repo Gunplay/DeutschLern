@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "./theme-toggle";
 import { createClient } from "@/lib/supabase/client";
 import type { UserProfile, NavItem, NavIconName } from "@/types";
+import { BackButton } from "./buttonBack";
 
 const ICONS: Record<NavIconName, React.ComponentType<{ className?: string }>> = {
   LayoutDashboard, BookOpen, BookMarked,
@@ -40,12 +41,17 @@ export function MobileSidebar({ user, navItems }: Props) {
     <>
       {/* Мобільний хедер */}
       <header className="lg:hidden fixed top-0 inset-x-0 z-50 glass border-b border-border h-14 flex items-center justify-between px-4">
+        {/* Back Button Section */}
+
         <Link href="/dashboard" className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
             <GraduationCap className="w-3.5 h-3.5 text-white" />
           </div>
           <span className="font-display font-bold">DeutschLern</span>
         </Link>
+        <div className="px-4 py-2">
+<BackButton/>
+      </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <button
